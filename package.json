@@ -1,5 +1,5 @@
 {
-  "name": "test-semantic-release",
+  "name": "@matthieuh/test-semantic-release",
   "version": "0.0.0-development",
   "description": "",
   "main": "index.js",
