@@ -18,5 +18,8 @@
   "homepage": "https://github.com/matthieuh/test-semantic-release#readme",
   "devDependencies": {
     "semantic-release": "^19.0.2"
+  },
+  "release": {
+    "branches": ["main", "next"]
   }
 }
