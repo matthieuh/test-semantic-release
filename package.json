@@ -1,0 +1,22 @@
+{
+  "name": "test-semantic-release",
+  "version": "0.0.0-development",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthieuh/test-semantic-release.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matthieuh/test-semantic-release/issues"
+  },
+  "homepage": "https://github.com/matthieuh/test-semantic-release#readme",
+  "devDependencies": {
+    "semantic-release": "^19.0.2"
+  }
+}
