@@ -44,7 +44,7 @@ jobs:
           echo "::echo::on"
           echo "NOTES<<EOF" >> $GITHUB_ENV
           PATTERN="Release note for version"
-          unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci | awk '/PATTERN/,0{if (!/PATTERN/)print}' >> $GITHUB_ENV
+          echo $(unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci | awk '/PATTERN/,0{if (!/PATTERN/)print}') >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       
       - name: Back to code
