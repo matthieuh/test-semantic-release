@@ -58,6 +58,6 @@ jobs:
         uses: actions/github-script@0.3.0
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-        script: |
-          const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-          github.issues.createComment({ issue_number, owner, repo, body: ${{steps.semantic-dry-run.outputs.note}} });
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            github.issues.createComment({ issue_number, owner, repo, body: ${{steps.semantic-dry-run.outputs.note}} });
