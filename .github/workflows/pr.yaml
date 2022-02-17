@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci
+        run: unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci --branches dry
       - name: Back to code
         uses: actions/checkout@v2
       - name: Clear dry-run branch
