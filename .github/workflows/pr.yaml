@@ -37,11 +37,14 @@ jobs:
         run: npm ci
 
       - name: Dry run
-        id: semantic-dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci > output.txt
+        run: |
+          echo "::echo::on"
+          echo "NOTES<<EOF" >> $GITHUB_ENV
+          unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       
       - name: Back to code
         uses: actions/checkout@v2
@@ -53,8 +56,10 @@ jobs:
           branches: dry
 
       - name: 'Comment with log on PR'
-        uses: NejcZdovc/comment-pr@v1
+        uses: actions/github-script@0.3.0
         with:
-          file: "output.txt"
-        env:
-          GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
+          github-token: ${{ secrets.GH_TOKEN }}
+        script: |
+          const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+
+          github.issues.createComment({ issue_number, owner, repo, body: ${{env.NOTES}} });
