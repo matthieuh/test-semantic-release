@@ -31,7 +31,8 @@
   "release": {
     "branches": [
       "main",
-      "next"
+      "next",
+      "dry"
     ],
     "plugins": [
       [

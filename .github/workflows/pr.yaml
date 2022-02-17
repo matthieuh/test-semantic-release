@@ -8,18 +8,24 @@ jobs:
     name: Release dry-run
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout head
+      - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref: ${{github.head_ref}}
 
       - name: Config git
         run: |
           git config --local user.email "30906710+traefiker@users.noreply.github.com"
           git config --local user.name "traefiker"
 
+      - name: Create dry release branch
+        run: |
+          git branch -D dry
+          git checkout -b dry
       - name: Dry run
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci
+      - name: Back to code
+        uses: actions/checkout@v2
+      - name: Clear dry release branch
+        run: git branch -D dry
