@@ -41,11 +41,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          unset GITHUB_ACTIONS
           echo "::echo::on"
           echo "NOTES<<EOF" >> $GITHUB_ENV
-          unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci >> $GITHUB_ENV
+          npx semantic-release --dry-run --no-ci --debug false >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-          echo $GITHUB_ENV | sed -n '/#/,$p' > $GITHUB_ENV
       
       - name: Back to code
         uses: actions/checkout@v2
