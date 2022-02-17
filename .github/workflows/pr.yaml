@@ -45,6 +45,7 @@ jobs:
           echo "NOTES<<EOF" >> $GITHUB_ENV
           unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo $GITHUB_ENV | sed -n '/#/,$p' > $GITHUB_ENV
       
       - name: Back to code
         uses: actions/checkout@v2
@@ -62,4 +63,4 @@ jobs:
           body: |
             # Release preview
             
-            ${{env.NOTES | sed -n '/#/,$p'}}
+            ${{env.NOTES}}
