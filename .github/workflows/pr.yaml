@@ -16,10 +16,10 @@ jobs:
           git config --local user.email "30906710+traefiker@users.noreply.github.com"
           git config --local user.name "traefiker"
 
-      - name: Create dry release branch
-        run: |
-          git branch -D dry
-          git checkout -b dry
+      - name: Create dry-run branch
+        uses: actions/checkout@v2
+        with:
+          ref: dry
       - name: Dry run
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -27,5 +27,5 @@ jobs:
         run: unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci
       - name: Back to code
         uses: actions/checkout@v2
-      - name: Clear dry release branch
+      - name: Clear dry-run branch
         run: git branch -D dry
