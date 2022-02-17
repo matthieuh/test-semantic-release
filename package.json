@@ -31,7 +31,11 @@
   "release": {
     "branches": [
       "main",
-      "next"
+      "next",
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
     ],
     "plugins": [
       [
