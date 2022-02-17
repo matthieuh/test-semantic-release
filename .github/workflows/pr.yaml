@@ -35,5 +35,11 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: Echo env
+        run: |
+          echo "::`echo -n ${{ github.ref }}`::"
       - name: Dry run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release --dry-run --no-ci --branches $GITHUB_REF
