@@ -9,5 +9,5 @@ module.exports = async ({require}) => {
   if (result) {
     return result.nextRelease.notes;
   }
-  throw new Error('No automated release triggered');
+  return 'No release';
 }

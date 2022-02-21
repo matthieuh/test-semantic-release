@@ -90,8 +90,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           script: |
-            const header = `# :spiral_notepad: Release notes preview`;
-            const nextBody = ${{ github.event.pull_request.body }} + '\n\n' + header + '\n\n<details>\n\n' + `${{ steps.dry-run.outputs.result }}` + '\n</details>';
+            const header = '# :spiral_notepad: Release notes preview';
+            const nextBody = `${{ github.event.pull_request.body }}` + '\n\n' + header + '\n\n<details>\n\n' + `${{ steps.dry-run.outputs.result }}` + '\n</details>';
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
