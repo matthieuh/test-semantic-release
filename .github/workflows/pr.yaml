@@ -28,6 +28,11 @@ jobs:
         with:
           ref: dry
 
+      - name: Squash commits into PR title
+        run: |
+          git reset --soft ${{ github.base_ref }}
+          git commit -m ${{ github.event.pull_request.title }}
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -57,18 +62,14 @@ jobs:
           github_token: ${{secrets.GH_TOKEN}}
           branches: dry
 
-      - name: "Release notes in PR description"
+      - name: "Release notes preview comment"
         uses: actions/github-script@v6
         with:
           script: |
-            const identifier = '<!-- ' + '${{ github.event.pull_request.number }}' + ' -->';
-            const header = `# :spiral_notepad: Release notes preview ${identifier}`;
-            const end = '<!-- end -->';
-            const regex = new RegExp(`${header}[\S\s]*?${end}`);
-            const bodyWithoutReleaseNotes = `${{ github.event.pull_request.body }}`.replace(regex, '');
-            const nextBody = bodyWithoutReleaseNotes + '\n\n' + header + '\n\n<details>\n\n' + `${{ steps.dry-run.outputs.result }}` + '\n</details>' + end;
-            github.rest.pulls.update({
-              pull_number: ${{ github.event.pull_request.number }},
+            const header = `# :spiral_notepad: Release notes preview`;
+            const nextBody = ${{ github.event.pull_request.body }} + '\n\n' + header + '\n\n<details>\n\n' + `${{ steps.dry-run.outputs.result }}` + '\n</details>';
+            github.rest.issues.createComment({
+              issue_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: nextBody
