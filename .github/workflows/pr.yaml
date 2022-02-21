@@ -30,7 +30,7 @@ jobs:
 
       - name: Squash commits into PR title
         run: |
-          git reset --soft ${{ github.base_ref }}
+          git reset --soft origin/${{ github.base_ref }}
           git commit -m ${{ github.event.pull_request.title }}
 
       - name: Setup Node.js
