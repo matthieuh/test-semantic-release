@@ -17,11 +17,14 @@ jobs:
           git config --local user.name "traefiker"
 
       - name: Create dry branch
-        uses: peterjgrainger/action-create-branch@v2.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        uses: actions/github-script@v6
         with:
-          branch: "dry"
+          script: |
+            await github.rest.git.createRef({
+              ref: `refs/heads/dry`,
+              sha: context.sha,
+              ...context.repo
+            })
 
       - name: Checkout dry branch
         uses: actions/checkout@v2
@@ -29,9 +32,11 @@ jobs:
           ref: dry
 
       - name: Squash commits into PR title
-        run: |
-          git reset --soft origin/${{ github.base_ref }}
-          git commit -m ${{ github.event.pull_request.title }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            git reset --soft HEAD^
+            git commit -m ${{ github.event.pull_request.title }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
