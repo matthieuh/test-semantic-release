@@ -103,9 +103,9 @@ jobs:
         with:
           script: |
             const header = '# :spiral_notepad: Release notes preview\n\n';
-            const headerCommits = '# :mag: Release notes preview from commits\n\n';
+            const headerCommits = '# :mag: Release notes preview from commits\n\n<details>\n\n';
 
-            const body = header + `${{ steps.dry-run.outputs.result }}` + headerCommits + `${ steps.dry-run-commits.outputs.result }}`;
+            const body = header + `${{ steps.dry-run.outputs.result }}` + headerCommits + `${ steps.dry-run-commits.outputs.result }}` + '\n\n</details>';
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
