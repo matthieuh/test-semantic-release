@@ -61,9 +61,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const nextBody = github.event.pull_request.body + '\n\n#Release notes preview\n\n<details>\n\n' + steps.dry-run.outputs.result + '\n</details>';
+            const nextBody = ${{ github.event.pull_request.body }} + '\n\n#Release notes preview\n\n<details>\n\n' + ${{ steps.dry-run.outputs.result }} + '\n</details>';
             github.rest.pulls.update({
-              pull_number: github.event.pull_request.number,
+              pull_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: nextBody
