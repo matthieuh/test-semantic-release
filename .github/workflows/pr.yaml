@@ -43,9 +43,10 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         uses: actions/github-script@v6
         with:
+          result-encoding: string
           script: |
             const script = require('./semantic-release-dry.js')
-            await script({require})
+            return await script({require})
 
       - name: Back to code
         uses: actions/checkout@v2
