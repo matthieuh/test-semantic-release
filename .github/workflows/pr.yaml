@@ -61,7 +61,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const nextBody = `${{ github.event.pull_request.body }}` + '\n\n# :spiral_notepad: Release notes preview\n\n<details>\n\n' + `${{ steps.dry-run.outputs.result }}` + '\n</details>';
+            const identifier = '<!-- ' + '${{ github.event.pull_request.number }}' + ' -->';
+            const header = `# :spiral_notepad: Release notes preview ${identifier}`;
+            const end = '<!-- end -->';
+            const bodyWithoutReleaseNotes = `${{ github.event.pull_request.body }}`.replace(/`${header}[\S\s]*?${end}`/gm, '');
+            const nextBody = bodyWithoutReleaseNotes + '\n\n' + header + '\n\n<details>\n\n' + `${{ steps.dry-run.outputs.result }}` + '\n</details>' + end;
             github.rest.pulls.update({
               pull_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
