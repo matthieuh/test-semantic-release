@@ -22,4 +22,4 @@ jobs:
         run: npm ci
 
       - name: Run commitlint
-        run: echo ${{ github.event.pull_request.title }} | npm commitlint --config ./package.json
+        run: echo ${{ github.event.pull_request.title }} | npx commitlint --config ./package.json
