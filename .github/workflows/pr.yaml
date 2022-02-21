@@ -21,17 +21,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          branch: 'dry'
+          branch: "dry"
 
       - name: Checkout dry branch
         uses: actions/checkout@v2
         with:
           ref: dry
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
+          node-version: "lts/*"
 
       - name: Install dependencies
         run: npm ci
@@ -44,23 +44,23 @@ jobs:
           unset GITHUB_ACTIONS
           echo "::echo::on"
           echo "NOTES<<EOF" >> $GITHUB_ENV
-          npx semantic-release --dry-run --no-ci --debug false >> $GITHUB_ENV
+          npx semantic-release --dry-run --no-ci >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-      
+
       - name: Back to code
         uses: actions/checkout@v2
-      
+
       - name: Clear dry branch
         uses: dawidd6/action-delete-branch@v3
         with:
           github_token: ${{secrets.GH_TOKEN}}
           branches: dry
 
-      - name: 'Comment with log on PR'
+      - name: "Comment with log on PR"
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{github.event.number}}
           body: |
             # Release preview
-            
+
             ${{env.NOTES}}
