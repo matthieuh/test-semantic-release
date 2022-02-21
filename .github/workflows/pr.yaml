@@ -45,6 +45,7 @@ jobs:
         run: |
           git reset --soft HEAD^
           git commit -m '${{ github.event.pull_request.title }}'
+          git push --force
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
