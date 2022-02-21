@@ -41,11 +41,9 @@ jobs:
           ref: dry
 
       - name: Squash commits into PR title
-        uses: actions/github-script@v6
-        with:
-          script: |
-            git reset --soft HEAD^
-            git commit -m ${{ github.event.pull_request.title }}
+        run: |
+          git reset --soft HEAD^
+          git commit -m '${{ github.event.pull_request.title }}'
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
