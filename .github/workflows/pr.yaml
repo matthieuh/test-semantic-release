@@ -64,7 +64,8 @@ jobs:
             const identifier = '<!-- ' + '${{ github.event.pull_request.number }}' + ' -->';
             const header = `# :spiral_notepad: Release notes preview ${identifier}`;
             const end = '<!-- end -->';
-            const bodyWithoutReleaseNotes = `${{ github.event.pull_request.body }}`.replace(/`${header}[\S\s]*?${end}`/gm, '');
+            const regex = new RegExp(`${header}[\S\s]*?${end}`);
+            const bodyWithoutReleaseNotes = `${{ github.event.pull_request.body }}`.replace(regex, '');
             const nextBody = bodyWithoutReleaseNotes + '\n\n' + header + '\n\n<details>\n\n' + `${{ steps.dry-run.outputs.result }}` + '\n</details>' + end;
             github.rest.pulls.update({
               pull_number: ${{ github.event.pull_request.number }},
