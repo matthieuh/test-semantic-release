@@ -18,13 +18,15 @@ jobs:
 
       - name: Create dry branch
         uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           script: |
             try {
               await github.rest.git.deleteRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: 'refs/heads/dry'
+                ref: 'heads/dry'
               });
             } catch (e) {}
             try {
@@ -72,16 +74,20 @@ jobs:
 
       - name: Clear dry branch
         uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           script: |
             await github.rest.git.deleteRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/heads/dry'
+              ref: 'heads/dry'
             });
 
       - name: "Release notes preview comment"
         uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           script: |
             const header = `# :spiral_notepad: Release notes preview`;
